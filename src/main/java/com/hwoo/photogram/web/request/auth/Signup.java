@@ -1,5 +1,7 @@
 package com.hwoo.photogram.web.request.auth;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,9 +12,16 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Signup {
 
+    @Size(min = 4, max = 20, message = "유저네임은 4 ~ 20글자이어야 합니다.")
     private String username;
+
+    @NotBlank(message = "이메일을 입력해주세요.")
     private String email;
+
+    @NotBlank(message = "이름을 입력해주세요.")
     private String name;
+
+    @NotBlank(message = "비밀번호를 입력해주세요.")
     private String password;
 
     @Builder

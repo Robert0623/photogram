@@ -14,11 +14,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 번호 증가 전략이 db를 따라간다. (mysql, oracle ...)
     private Long id;
 
-    @Column(unique = true)
+    @Column(length = 20, unique = true)
     private String username;
+
+    @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
     private String name;
+
     private String website; // 웹사이트
     private String bio; // 자기 소개
     private String phone;
