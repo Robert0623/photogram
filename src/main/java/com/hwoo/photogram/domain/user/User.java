@@ -1,9 +1,7 @@
 package com.hwoo.photogram.domain.user;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +13,8 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 번호 증가 전략이 db를 따라간다. (mysql, oracle ...)
     private Long id;
+
+    @Column(unique = true)
     private String username;
     private String email;
     private String password;
@@ -32,5 +32,19 @@ public class User {
     @PrePersist // db에 insert 되기 직전에 실행
     public void createdDate() {
         this.createdDate = LocalDateTime.now();
+    }
+
+    @Builder
+    public User(String username, String email, String password, String name, String website, String bio, String phone, String gender, String profileImageUrl, String role, LocalDateTime createdDate) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.website = website;
+        this.bio = bio;
+        this.phone = phone;
+        this.gender = gender;
+        this.profileImageUrl = profileImageUrl;
+        this.role = role;
     }
 }
