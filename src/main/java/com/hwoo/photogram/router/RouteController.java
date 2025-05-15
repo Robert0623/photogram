@@ -1,4 +1,4 @@
-package com.hwoo.photogram.api;
+package com.hwoo.photogram.router;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,7 @@ public class RouteController {
         return "auth/signin";
     }
 
-    @GetMapping("/image/story")
+    @GetMapping({"/", "/image/story"})
     public String storyPage() {
         return "image/story";
     }
