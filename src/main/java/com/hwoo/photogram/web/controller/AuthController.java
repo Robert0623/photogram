@@ -1,5 +1,6 @@
 package com.hwoo.photogram.web.controller;
 
+import com.hwoo.photogram.config.handler.ex.CustomValidationException;
 import com.hwoo.photogram.web.request.auth.Signup;
 import com.hwoo.photogram.web.service.AuthService;
 import jakarta.validation.Valid;
@@ -39,8 +40,9 @@ public class AuthController {
 
             for (FieldError error : bindingResult.getFieldErrors()) {
                 errorMap.put(error.getField(), error.getDefaultMessage());
-                log.info(">>> {}", error.getDefaultMessage());
             }
+
+            throw new CustomValidationException("유효성 검사 실패", errorMap);
         }
 
         authService.signup(request);

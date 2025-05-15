@@ -12,7 +12,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Signup {
 
-    @Size(min = 4, max = 20, message = "유저네임은 4 ~ 20글자이어야 합니다.")
+    @Size(min = 2, max = 20, message = "유저네임은 4 ~ 20글자이어야 합니다.")
+    @NotBlank(message = "유저네임을 입력해주세요.")
     private String username;
 
     @NotBlank(message = "이메일을 입력해주세요.")
