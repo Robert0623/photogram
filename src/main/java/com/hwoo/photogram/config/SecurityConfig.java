@@ -1,4 +1,4 @@
-package com.hwoo.photogram.api.config;
+package com.hwoo.photogram.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +10,8 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain configure(HttpSecurity http) throws Exception {
+        http.csrf(c -> c.disable());
+
         http.authorizeHttpRequests(authorize ->
                 authorize.requestMatchers("/", "/user/**", "/image99/**", "/subscribe/**", "/comment/**").authenticated()
                         .anyRequest().permitAll());

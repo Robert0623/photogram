@@ -1,9 +1,8 @@
-package com.hwoo.photogram.router;
+package com.hwoo.photogram.web.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@Controller
+//@Controller
 public class RouteController {
 
     @GetMapping("/auth/signup")
