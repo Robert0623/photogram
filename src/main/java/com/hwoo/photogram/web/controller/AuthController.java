@@ -42,7 +42,7 @@ public class AuthController {
                 errorMap.put(error.getField(), error.getDefaultMessage());
             }
 
-            throw new CustomValidationException("유효성 검사 실패", errorMap);
+            throw new CustomValidationException("회원가입 유효성 검사 실패", errorMap);
         }
 
         authService.signup(request);
