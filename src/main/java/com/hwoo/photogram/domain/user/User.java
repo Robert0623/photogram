@@ -1,5 +1,6 @@
 package com.hwoo.photogram.domain.user;
 
+import com.hwoo.photogram.web.request.user.UserEdit;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -53,5 +54,20 @@ public class User {
         this.gender = gender;
         this.profileImageUrl = profileImageUrl;
         this.role = role;
+    }
+
+    public void edit(UserEdit dto) {
+        if (dto.getName() != null && !dto.getName().isBlank()) {
+            this.name = dto.getName();
+        }
+
+        this.website = dto.getWebsite();
+        this.bio = dto.getBio();
+        this.phone = dto.getPhone();
+        this.gender = dto.getGender();
+    }
+
+    public void editPassword(String encryptedPassword) {
+        this.password = encryptedPassword;
     }
 }

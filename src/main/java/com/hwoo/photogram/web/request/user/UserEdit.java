@@ -1,6 +1,8 @@
 package com.hwoo.photogram.web.request.user;
 
 import com.hwoo.photogram.domain.user.User;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @NoArgsConstructor
@@ -9,8 +11,14 @@ import lombok.*;
 @ToString
 public class UserEdit {
 
+    // TODO: validation 체크 전체 추가 (SIZE, NotBlank)
+    @NotBlank(message = "이름 입력해주세요.")
     private String name;
+
+    @Size(min = 4, max = 10, message = "비밀번호는 4 ~ 10글자이어야 합니다.")
+    @NotBlank(message = "비밀번호를 입력해주세요.")
     private String password;
+
     private String website;
     private String bio;
     private String phone;
@@ -26,11 +34,21 @@ public class UserEdit {
         this.gender = gender;
     }
 
+    public UserEdit withoutPassword() {
+        return UserEdit.builder()
+                .name(this.name)
+                .website(this.website)
+                .bio(this.bio)
+                .phone(this.phone)
+                .gender(this.gender)
+                .build();
+    }
+
     // TODO: 위험한 코드. 수정 필요.
     public User toEntity() {
         return User.builder()
-                .name(name)
-                .password(password)
+                .name(name) // 이름은 필수값. 기재 안하면 문제 --> validation 체크
+                .password(password) // 패스워드는 필수값. 기재 안하면 문제 --> validation 체크
                 .website(website)
                 .bio(bio)
                 .phone(phone)

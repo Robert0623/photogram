@@ -12,6 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Signup {
 
+    // TODO: validation 체크 전체 추가 (SIZE, NotBlank)
     @Size(min = 2, max = 20, message = "유저네임은 4 ~ 20글자이어야 합니다.")
     @NotBlank(message = "유저네임을 입력해주세요.")
     private String username;
@@ -22,6 +23,7 @@ public class Signup {
     @NotBlank(message = "이름을 입력해주세요.")
     private String name;
 
+    @Size(min = 4, max = 10, message = "비밀번호는 4 ~ 10글자이어야 합니다.")
     @NotBlank(message = "비밀번호를 입력해주세요.")
     private String password;
 
