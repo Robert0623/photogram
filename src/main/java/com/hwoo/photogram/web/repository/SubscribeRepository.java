@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface SubscribeRepository extends JpaRepository<Subscribe, Long> {
 
     @Modifying // INSERT, DELETE, UPDATE를 네이티브 쿼리로 작성하려면 해당 어노테이션 필요
-    @Query(value = "INSERT INTO subscribes (fromUserId, toUserId, createdDate) VALUES (:fromUserId, :toUserId:, NOW())", nativeQuery = true)
+    @Query(value = "INSERT INTO subscribe (fromUserId, toUserId, createdDate) VALUES (:fromUserId, :toUserId, NOW())", nativeQuery = true)
     void mSubscribe(Long fromUserId, Long toUserId); // e.g. 1, -1
 
     @Modifying
