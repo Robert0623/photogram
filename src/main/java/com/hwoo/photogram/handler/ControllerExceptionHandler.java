@@ -1,7 +1,9 @@
 package com.hwoo.photogram.handler;
 
 import com.hwoo.photogram.handler.ex.CustomApiException;
+import com.hwoo.photogram.handler.ex.CustomException;
 import com.hwoo.photogram.handler.ex.CustomValidationException;
+import com.hwoo.photogram.util.Script;
 import com.hwoo.photogram.web.enums.CommonResponseCode;
 import com.hwoo.photogram.web.exception.CommonResponse;
 import org.springframework.http.HttpStatus;
@@ -15,13 +17,17 @@ import java.util.Map;
 public class ControllerExceptionHandler {
 
     @ExceptionHandler(CustomValidationException.class)
-    public ResponseEntity<?> validationException(CustomValidationException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CommonResponse.<Map<String, String>>builder()
-                .code(CommonResponseCode.VALIDATION_FAIL.getCode())
-                .message(e.getMessage())
-                .data(e.getErrorMap())
-                .build());
-//        return Script.back(e.getErrorMap().toString());
+    public String validationException(CustomValidationException e) {
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CommonResponse.<Map<String, String>>builder()
+//                .code(CommonResponseCode.VALIDATION_FAIL.getCode())
+//                .message(e.getMessage())
+//                .data(e.getErrorMap())
+//                .build());
+        if (e.getErrorMap() == null) {
+            return Script.back(e.getMessage());
+        }
+
+        return Script.back(e.getErrorMap().toString());
     }
 
     @ExceptionHandler(CustomApiException.class)
@@ -30,6 +36,11 @@ public class ControllerExceptionHandler {
                 .code(CommonResponseCode.VALIDATION_FAIL.getCode())
                 .message(e.getMessage())
                 .build());
+    }
+
+    @ExceptionHandler(CustomException.class)
+    public String customException(CustomException e) {
+        return Script.back(e.getMessage());
     }
 
 }

@@ -1,10 +1,15 @@
 package com.hwoo.photogram.domain.user;
 
+import com.hwoo.photogram.domain.image.Image;
 import com.hwoo.photogram.web.request.user.UserEdit;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity // db에 테이블을 생성
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -37,13 +42,21 @@ public class User {
 
     private LocalDateTime createdDate;
 
+    // 나는 연관관계의 주인이 아니다.그러므로 테이블에 컬럼을 만들지마.
+    // User를 select할 때 해당 userId로 등록된 image들을 다 가져와.
+    // Lazy --> User를 select할 때 해당 userId로 등록된 image들을 가져오지마.
+    //          대신 getImages() 함수의 image가 호출될 때 가져와.
+    // Eager --> User를 select할 때 해당 userId로 등록된 image들을 전부 join해서 가져와.
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Image> images;
+
     @PrePersist // db에 insert 되기 직전에 실행
     public void createdDate() {
         this.createdDate = LocalDateTime.now();
     }
 
     @Builder
-    public User(String username, String email, String password, String name, String website, String bio, String phone, String gender, String profileImageUrl, String role, LocalDateTime createdDate) {
+    public User(String username, String email, String password, String name, String website, String bio, String phone, String gender, String profileImageUrl, String role) {
         this.username = username;
         this.email = email;
         this.password = password;
