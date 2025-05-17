@@ -1,7 +1,7 @@
 package com.hwoo.photogram.web.controller;
 
 import com.hwoo.photogram.config.auth.PrincipalDetails;
-import com.hwoo.photogram.web.response.UserResponse;
+import com.hwoo.photogram.web.response.UserProfileResponse;
 import com.hwoo.photogram.web.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     public String popular(@PathVariable("id") Long id, Model model) {
-        UserResponse response = userService.getProfiles(id);
+        UserProfileResponse response = userService.getProfiles(id);
         model.addAttribute("user", response);
 
         return "user/profile";

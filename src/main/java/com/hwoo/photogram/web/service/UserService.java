@@ -5,7 +5,7 @@ import com.hwoo.photogram.handler.ex.CustomApiException;
 import com.hwoo.photogram.handler.ex.CustomException;
 import com.hwoo.photogram.web.repository.UserRepository;
 import com.hwoo.photogram.web.request.user.UserEdit;
-import com.hwoo.photogram.web.response.UserResponse;
+import com.hwoo.photogram.web.response.UserProfileResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -41,11 +41,12 @@ public class UserService {
         return user;
     }
 
-    public UserResponse getProfiles(Long id) {
+    @Transactional(readOnly = true)
+    public UserProfileResponse getProfiles(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new CustomException("해당 프로필 페이지는 없는 페이지입니다."));
 
-        return UserResponse.builder()
+        return UserProfileResponse.builder()
                 .name(user.getName())
                 .username(user.getUsername())
                 .email(user.getEmail())
@@ -54,6 +55,7 @@ public class UserService {
                 .phone(user.getPhone())
                 .gender(user.getGender())
                 .profileImageUrl(user.getProfileImageUrl())
+                .images(user.getImages())
                 .build();
     }
 }

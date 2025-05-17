@@ -3,6 +3,7 @@ package com.hwoo.photogram.domain.image;
 import com.hwoo.photogram.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,5 +31,12 @@ public class Image {
     @PrePersist
     public void createdDate() {
         this.createdDate = LocalDateTime.now();
+    }
+
+    @Builder
+    public Image(String caption, String postImageUrl, User user) {
+        this.caption = caption;
+        this.postImageUrl = postImageUrl;
+        this.user = user;
     }
 }
