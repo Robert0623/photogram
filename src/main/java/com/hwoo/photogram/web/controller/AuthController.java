@@ -1,6 +1,6 @@
 package com.hwoo.photogram.web.controller;
 
-import com.hwoo.photogram.config.handler.ex.CustomValidationException;
+import com.hwoo.photogram.handler.ex.CustomValidationException;
 import com.hwoo.photogram.web.request.auth.Signup;
 import com.hwoo.photogram.web.service.AuthService;
 import jakarta.validation.Valid;

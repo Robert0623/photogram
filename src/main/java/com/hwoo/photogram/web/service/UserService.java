@@ -1,6 +1,6 @@
 package com.hwoo.photogram.web.service;
 
-import com.hwoo.photogram.config.handler.ex.CustomValidationException;
+import com.hwoo.photogram.handler.ex.CustomValidationException;
 import com.hwoo.photogram.domain.user.User;
 import com.hwoo.photogram.web.repository.UserRepository;
 import com.hwoo.photogram.web.request.user.UserEdit;

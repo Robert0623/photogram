@@ -1,4 +1,4 @@
-package com.hwoo.photogram.config.handler.ex;
+package com.hwoo.photogram.handler.ex;
 
 import java.util.Map;
 
