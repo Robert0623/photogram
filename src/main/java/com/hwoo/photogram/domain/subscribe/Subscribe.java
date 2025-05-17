@@ -25,17 +25,17 @@ public class Subscribe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "fromUserId")
     @ManyToOne
+    @JoinColumn(name = "fromUserId")
     private User fromUser;
 
-    @JoinColumn(name = "toUserId")
     @ManyToOne
+    @JoinColumn(name = "toUserId")
     private User toUser;
 
     private LocalDateTime createdDate;
 
-    @PrePersist
+    @PrePersist // native query 사용 시 동작 X --> 쿼리에 NOW()로 추가
     public void createdDate() {
         this.createdDate = LocalDateTime.now();
     }

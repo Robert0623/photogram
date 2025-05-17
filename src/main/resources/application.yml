@@ -2,9 +2,17 @@ server:
   port: 8080
   servlet:
     context-path: /
+
     encoding:
       charset: utf-8
       enabled: true
+
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+
+file:
+  path: D:/test/imageUpload/
 
 spring:
   mvc:
@@ -31,11 +39,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
-  servlet:
-    multipart:
-      enabled: true
-      max-file-size: 2MB
 
   security:
     user:
