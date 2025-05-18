@@ -17,10 +17,10 @@ public class UserProfileResponse {
     private String gender;
     private String profileImageUrl; // 사진
 
-    private List<UserProfileImageResponse> images;
+    private List<UserImageResponse> images;
 
     @Builder
-    public UserProfileResponse(String username, String email, String name, String website, String bio, String phone, String gender, String profileImageUrl, List<UserProfileImageResponse> images) {
+    public UserProfileResponse(String username, String email, String name, String website, String bio, String phone, String gender, String profileImageUrl, List<UserImageResponse> images) {
         this.username = username;
         this.email = email;
         this.name = name;

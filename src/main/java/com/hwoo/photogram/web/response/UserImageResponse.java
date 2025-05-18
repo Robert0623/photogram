@@ -4,14 +4,14 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class UserProfileImageResponse {
+public class UserImageResponse {
 
     private Long id;
     private String caption;
     private String postImageUrl;
 
     @Builder
-    public UserProfileImageResponse(Long id, String caption, String postImageUrl) {
+    public UserImageResponse(Long id, String caption, String postImageUrl) {
         this.id = id;
         this.caption = caption;
         this.postImageUrl = postImageUrl;
