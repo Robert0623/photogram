@@ -46,7 +46,6 @@ public class UserApiController {
                 .builder()
                 .code(1)
                 .message("회원 수정 완료")
-                .data(user)
                 .build();
     }
 

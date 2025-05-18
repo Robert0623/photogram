@@ -48,6 +48,7 @@ public class User {
     //          대신 getImages() 함수의 image가 호출될 때 가져와.
     // Eager --> User를 select할 때 해당 userId로 등록된 image들을 전부 join해서 가져와.
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    // @JsonIgnoreProperties({"user"})
     private List<Image> images;
 
     @PrePersist // db에 insert 되기 직전에 실행
