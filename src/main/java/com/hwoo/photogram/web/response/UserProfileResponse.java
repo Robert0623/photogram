@@ -1,6 +1,5 @@
 package com.hwoo.photogram.web.response;
 
-import com.hwoo.photogram.domain.image.Image;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -18,10 +17,10 @@ public class UserProfileResponse {
     private String gender;
     private String profileImageUrl; // 사진
 
-    private List<Image> images;
+    private List<UserProfileImageResponse> images;
 
     @Builder
-    public UserProfileResponse(String username, String email, String name, String website, String bio, String phone, String gender, String profileImageUrl, List<Image> images) {
+    public UserProfileResponse(String username, String email, String name, String website, String bio, String phone, String gender, String profileImageUrl, List<UserProfileImageResponse> images) {
         this.username = username;
         this.email = email;
         this.name = name;

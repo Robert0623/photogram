@@ -1,6 +1,7 @@
 package com.hwoo.photogram.domain.image;
 
 import com.hwoo.photogram.domain.user.User;
+import com.hwoo.photogram.web.response.UserProfileImageResponse;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -16,7 +17,7 @@ public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     private String caption;
     private String postImageUrl; // 사진을 전송받아서 그 사진을 서버의 특정 폴더에 저장. DB에 저장된 경로를 insert
     private LocalDateTime createdDate;
@@ -38,5 +39,13 @@ public class Image {
         this.caption = caption;
         this.postImageUrl = postImageUrl;
         this.user = user;
+    }
+
+    public UserProfileImageResponse toUserProfileImageResponse() {
+        return UserProfileImageResponse.builder()
+                .id(this.id)
+                .caption(this.caption)
+                .postImageUrl(this.postImageUrl)
+                .build();
     }
 }

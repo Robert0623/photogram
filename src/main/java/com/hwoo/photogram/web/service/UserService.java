@@ -1,5 +1,6 @@
 package com.hwoo.photogram.web.service;
 
+import com.hwoo.photogram.domain.image.Image;
 import com.hwoo.photogram.domain.user.User;
 import com.hwoo.photogram.handler.ex.CustomApiException;
 import com.hwoo.photogram.handler.ex.CustomException;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -55,7 +58,9 @@ public class UserService {
                 .phone(user.getPhone())
                 .gender(user.getGender())
                 .profileImageUrl(user.getProfileImageUrl())
-                .images(user.getImages())
+                .images(user.getImages().stream()
+                        .map(Image::toUserProfileImageResponse)
+                        .collect(Collectors.toList()))
                 .build();
     }
 }
