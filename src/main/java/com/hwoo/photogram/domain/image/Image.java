@@ -41,7 +41,7 @@ public class Image {
         this.user = user;
     }
 
-    public UserImageResponse toUserProfileImageResponse() {
+    public UserImageResponse toUserImageResponse() {
         return UserImageResponse.builder()
                 .id(this.id)
                 .caption(this.caption)

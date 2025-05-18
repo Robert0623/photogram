@@ -18,9 +18,11 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/user/{id}")
-    public String popular(@PathVariable("id") Long id, Model model) {
-        UserProfileResponse response = userService.getProfiles(id);
+    @GetMapping("/user/{pageUserId}")
+    public String popular(@PathVariable("pageUserId") Long pageUserId,
+                          @AuthenticationPrincipal PrincipalDetails principalDetails,
+                          Model model) {
+        UserProfileResponse response = userService.getProfiles(pageUserId, principalDetails.getUser().getId());
         model.addAttribute("user", response);
 
         return "user/profile";

@@ -45,8 +45,8 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserProfileResponse getProfiles(Long id) {
-        User user = userRepository.findById(id)
+    public UserProfileResponse getProfiles(Long pageUserId, Long signinId) {
+        User user = userRepository.findById(pageUserId)
                 .orElseThrow(() -> new CustomException("해당 프로필 페이지는 없는 페이지입니다."));
 
         return UserProfileResponse.builder()
@@ -58,8 +58,10 @@ public class UserService {
                 .phone(user.getPhone())
                 .gender(user.getGender())
                 .profileImageUrl(user.getProfileImageUrl())
+                .pageOwnerState(pageUserId == signinId)
+                .imageCount(user.getImages().size())
                 .images(user.getImages().stream()
-                        .map(Image::toUserProfileImageResponse)
+                        .map(Image::toUserImageResponse)
                         .collect(Collectors.toList()))
                 .build();
     }
