@@ -1,5 +1,6 @@
 package com.hwoo.photogram.web.response;
 
+import com.hwoo.photogram.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -35,4 +36,38 @@ public class UserProfileResponse {
         this.imageCount = imageCount;
         this.images = images;
     }
+
+    public static UserProfileResponse from(User user) {
+        return UserProfileResponse.builder()
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .name(user.getName())
+                .website(user.getWebsite())
+                .bio(user.getBio())
+                .phone(user.getPhone())
+                .gender(user.getGender())
+                .profileImageUrl(user.getProfileImageUrl())
+                .imageCount(user.getImages().size())
+                .images(user.getImages().stream()
+                        .map(UserImageResponse::from)
+                        .toList())
+                .build();
+    }
+
+    public UserProfileResponse withPageOwnerState(boolean pageOwnerState) {
+        return UserProfileResponse.builder()
+                .username(this.username)
+                .email(this.email)
+                .name(this.name)
+                .website(this.website)
+                .bio(this.bio)
+                .phone(this.phone)
+                .gender(this.gender)
+                .profileImageUrl(this.profileImageUrl)
+                .imageCount(this.images.size())
+                .images(this.images)
+                .pageOwnerState(pageOwnerState)
+                .build();
+    }
+
 }

@@ -1,7 +1,6 @@
 package com.hwoo.photogram.domain.image;
 
 import com.hwoo.photogram.domain.user.User;
-import com.hwoo.photogram.web.response.UserImageResponse;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -39,13 +38,5 @@ public class Image {
         this.caption = caption;
         this.postImageUrl = postImageUrl;
         this.user = user;
-    }
-
-    public UserImageResponse toUserImageResponse() {
-        return UserImageResponse.builder()
-                .id(this.id)
-                .caption(this.caption)
-                .postImageUrl(this.postImageUrl)
-                .build();
     }
 }

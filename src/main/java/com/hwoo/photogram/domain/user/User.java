@@ -1,7 +1,7 @@
 package com.hwoo.photogram.domain.user;
 
 import com.hwoo.photogram.domain.image.Image;
-import com.hwoo.photogram.web.request.user.UserEdit;
+import com.hwoo.photogram.web.request.user.UserUpdate;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -70,7 +70,7 @@ public class User {
         this.role = role;
     }
 
-    public void edit(UserEdit dto) {
+    public void edit(UserUpdate dto) {
         if (dto.getName() != null && !dto.getName().isBlank()) {
             this.name = dto.getName();
         }

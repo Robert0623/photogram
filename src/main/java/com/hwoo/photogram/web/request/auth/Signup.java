@@ -34,13 +34,4 @@ public class Signup {
         this.name = name;
         this.password = password;
     }
-
-//    public User toEntity() {
-//        return User.builder()
-//                .username(this.username)
-//                .email(this.email)
-//                .name(this.name)
-//                .password(this.password)
-//                .build();
-//    }
 }

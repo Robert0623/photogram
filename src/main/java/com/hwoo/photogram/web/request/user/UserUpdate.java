@@ -9,7 +9,7 @@ import lombok.*;
 @Setter
 @Getter
 @ToString
-public class UserEdit {
+public class UserUpdate {
 
     // TODO: validation 체크 전체 추가 (SIZE, NotBlank)
     @NotBlank(message = "이름 입력해주세요.")
@@ -25,7 +25,7 @@ public class UserEdit {
     private String gender;
 
     @Builder
-    public UserEdit(String name, String password, String website, String bio, String phone, String gender) {
+    public UserUpdate(String name, String password, String website, String bio, String phone, String gender) {
         this.name = name;
         this.password = password;
         this.website = website;
@@ -34,8 +34,8 @@ public class UserEdit {
         this.gender = gender;
     }
 
-    public UserEdit withoutPassword() {
-        return UserEdit.builder()
+    public UserUpdate withoutPassword() {
+        return UserUpdate.builder()
                 .name(this.name)
                 .website(this.website)
                 .bio(this.bio)

@@ -22,7 +22,7 @@ public class UserController {
     public String popular(@PathVariable("pageUserId") Long pageUserId,
                           @AuthenticationPrincipal PrincipalDetails principalDetails,
                           Model model) {
-        UserProfileResponse response = userService.getProfiles(pageUserId, principalDetails.getUser().getId());
+        UserProfileResponse response = userService.getProfile(pageUserId, principalDetails.getUser().getId());
         model.addAttribute("user", response);
 
         return "user/profile";

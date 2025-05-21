@@ -3,6 +3,7 @@ package com.hwoo.photogram.domain.subscribe;
 import com.hwoo.photogram.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -40,4 +41,9 @@ public class Subscribe {
         this.createdDate = LocalDateTime.now();
     }
 
+    @Builder
+    public Subscribe(User fromUser, User toUser) {
+        this.fromUser = fromUser;
+        this.toUser = toUser;
+    }
 }
