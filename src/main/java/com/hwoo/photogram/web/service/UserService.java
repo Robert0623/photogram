@@ -3,6 +3,7 @@ package com.hwoo.photogram.web.service;
 import com.hwoo.photogram.domain.user.User;
 import com.hwoo.photogram.handler.ex.CustomApiException;
 import com.hwoo.photogram.handler.ex.CustomException;
+import com.hwoo.photogram.web.repository.SubscribeRepository;
 import com.hwoo.photogram.web.repository.UserRepository;
 import com.hwoo.photogram.web.request.user.UserUpdate;
 import com.hwoo.photogram.web.response.UserProfileResponse;
@@ -19,6 +20,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final SubscribeRepository subscribeRepository;
 
     @Transactional
     public User edit(Long userId, UserUpdate request) {
@@ -48,9 +50,11 @@ public class UserService {
         User user = userRepository.findById(pageUserId)
                 .orElseThrow(() -> new CustomException("해당 프로필 페이지는 없는 페이지입니다."));
 
-        UserProfileResponse userProfile = UserProfileResponse.from(user);
         boolean pageOwnerState = Objects.equals(pageUserId, signinId);
 
-        return userProfile.withPageOwnerState(pageOwnerState);
+        int subscribeState = subscribeRepository.mSubscribeState(signinId, pageUserId);
+        int subscribeCount = subscribeRepository.mSubscribeCount(pageUserId);
+
+        return UserProfileResponse.from(user, pageOwnerState, subscribeState == 1, subscribeCount);
     }
 }

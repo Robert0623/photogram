@@ -19,11 +19,13 @@ public class UserProfileResponse {
     private String profileImageUrl; // 사진
     private boolean pageOwnerState; // 페이지 소유자인지
     private long imageCount;
+    private boolean subscribeState;
+    private int subscribeCount;
 
     private List<UserImageResponse> images;
 
     @Builder
-    public UserProfileResponse(String username, String email, String name, String website, String bio, String phone, String gender, String profileImageUrl,  boolean pageOwnerState, long imageCount, List<UserImageResponse> images) {
+    public UserProfileResponse(String username, String email, String name, String website, String bio, String phone, String gender, String profileImageUrl, boolean pageOwnerState, long imageCount, boolean subscribeState, int subscribeCount, List<UserImageResponse> images) {
         this.username = username;
         this.email = email;
         this.name = name;
@@ -34,9 +36,12 @@ public class UserProfileResponse {
         this.profileImageUrl = profileImageUrl;
         this.pageOwnerState = pageOwnerState;
         this.imageCount = imageCount;
+        this.subscribeState = subscribeState;
+        this.subscribeCount = subscribeCount;
         this.images = images;
     }
 
+    @Builder
     public static UserProfileResponse from(User user) {
         return UserProfileResponse.builder()
                 .username(user.getUsername())
@@ -67,6 +72,26 @@ public class UserProfileResponse {
                 .imageCount(this.images.size())
                 .images(this.images)
                 .pageOwnerState(pageOwnerState)
+                .build();
+    }
+
+    public static UserProfileResponse from(User user, boolean pageOwnerState, boolean subscribeState, int subscribeCount) {
+        return UserProfileResponse.builder()
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .name(user.getName())
+                .website(user.getWebsite())
+                .bio(user.getBio())
+                .phone(user.getPhone())
+                .gender(user.getGender())
+                .profileImageUrl(user.getProfileImageUrl())
+                .imageCount(user.getImages().size())
+                .images(user.getImages().stream()
+                        .map(UserImageResponse::from)
+                        .toList())
+                .pageOwnerState(pageOwnerState)
+                .subscribeState(subscribeState)
+                .subscribeCount(subscribeCount)
                 .build();
     }
 
