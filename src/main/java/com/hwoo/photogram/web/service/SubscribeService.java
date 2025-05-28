@@ -2,10 +2,13 @@ package com.hwoo.photogram.web.service;
 
 import com.hwoo.photogram.handler.ex.CustomApiException;
 import com.hwoo.photogram.web.repository.SubscribeRepository;
+import com.hwoo.photogram.web.response.SubscribeResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -35,5 +38,10 @@ public class SubscribeService {
     @Transactional
     public void unSubscribe(Long id, Long toUserId) {
         subscribeRepository.mUnSubscribe(id, toUserId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<SubscribeResponse> getSubscribeList(Long userId, Long pageUserId) {
+        return subscribeRepository.getSubscribeList(userId, pageUserId);
     }
 }
