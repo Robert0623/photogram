@@ -33,7 +33,7 @@ public class SubscribeApiController {
 
     @DeleteMapping("/api/subscribe/{toUserId}")
     public ResponseEntity<?> unSubscribe(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                         @PathVariable("userId") Long toUserId) {
+                                         @PathVariable("toUserId") Long toUserId) {
         subscribeService.unSubscribe(principalDetails.getUser().getId(), toUserId);
 
         return ResponseEntity.ok(CommonResponse.builder()
