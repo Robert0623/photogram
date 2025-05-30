@@ -3,8 +3,11 @@ package com.hwoo.photogram.web.service;
 import com.hwoo.photogram.handler.ex.CustomApiException;
 import com.hwoo.photogram.web.repository.SubscribeRepository;
 import com.hwoo.photogram.web.response.SubscribeResponse;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +19,7 @@ import java.util.List;
 public class SubscribeService {
 
     private final SubscribeRepository subscribeRepository;
+    private final EntityManager em; // Repository는 EntityManager를 구현해서 만들어져 있는 구현체
 
     @Transactional
     public void subscribe(Long id, Long toUserId) {
@@ -42,6 +46,36 @@ public class SubscribeService {
 
     @Transactional(readOnly = true)
     public List<SubscribeResponse> getSubscribeList(Long userId, Long pageUserId) {
-        return subscribeRepository.getSubscribeList(userId, pageUserId);
+        String sql =
+                """
+                SELECT u.id
+                     , u.username
+                     , u.profileImageUrl
+                     , CASE
+                            WHEN EXISTS (
+                                 SELECT 1 
+                                 FROM subscribe s2 
+                                 WHERE s2.fromUserId = :userId AND s2.toUserId = u.id
+                            ) THEN 1
+                            ELSE 0
+                       END AS subscribeState
+                     , CASE
+                            WHEN u.id = :userId THEN 1
+                            ELSE 0
+                       END AS equalUserState
+                FROM subscribe s
+                JOIN user u ON s.toUserId = u.id
+                WHERE s.fromUserId = :pageUserId
+                """;
+
+        Query query = em.createNativeQuery(sql)
+                .setParameter("userId", userId)
+                .setParameter("pageUserId", pageUserId);
+
+        // 쿼리 실행 (qlrm 라이브러리 필요 --> dto에 db결과를 맵핑)
+        JpaResultMapper resultMapper = new JpaResultMapper();
+        List<SubscribeResponse> subscribes = resultMapper.list(query, SubscribeResponse.class);
+
+        return subscribes;
     }
 }

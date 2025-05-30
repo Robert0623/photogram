@@ -33,8 +33,8 @@ public class UserApiController {
     private final SecurityService securityService;
     private final SubscribeService subscribeService;
 
-    @GetMapping("/api/{pageUserId}/subscribe")
-    public CommonResponse<?> subscribeList(@PathVariable Long pageUserId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    @GetMapping("/api/user/{pageUserId}/subscribe")
+    public CommonResponse<?> subscribeList(@PathVariable("pageUserId") Long pageUserId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         List<SubscribeResponse> response = subscribeService.getSubscribeList(principalDetails.getUser().getId(), pageUserId);
 
         return CommonResponse.builder()
