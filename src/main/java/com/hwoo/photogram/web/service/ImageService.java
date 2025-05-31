@@ -4,6 +4,7 @@ import com.hwoo.photogram.domain.image.Image;
 import com.hwoo.photogram.domain.user.User;
 import com.hwoo.photogram.web.repository.ImageRepository;
 import com.hwoo.photogram.web.request.image.ImageUpload;
+import com.hwoo.photogram.web.response.MainStoryImageResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -26,6 +28,14 @@ public class ImageService {
     private String uploadFolder;
 
     private final ImageRepository imageRepository;
+
+    @Transactional(readOnly = true) // 영속성 컨텍스트에서 변경 감지를 해서 더티체킹, flush(반영)
+    public List<MainStoryImageResponse> imageStory(Long principalId) {
+        List<Image> images = imageRepository.mStory(principalId);
+        return images.stream()
+                .map(MainStoryImageResponse::from)
+                .toList();
+    }
 
     @Transactional
     public void imageUpload(User user, ImageUpload request) {

@@ -1,5 +1,6 @@
 package com.hwoo.photogram.domain.image;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hwoo.photogram.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -24,6 +25,7 @@ public class Image {
     // TODO: 이미지 좋아요
     // TODO: 이미지 댓글
 
+    @JsonIgnoreProperties({"images"})
     @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
