@@ -16,15 +16,17 @@ public class MainStoryImageResponse {
     private LocalDateTime createdDate;
     private UserResponse userResponse;
     private boolean likeState;
+    private int likeCount;
 
     @Builder
-    public MainStoryImageResponse(Long id, String caption, String postImageUrl, LocalDateTime createdDate, UserResponse userResponse, boolean likeState) {
+    public MainStoryImageResponse(Long id, String caption, String postImageUrl, LocalDateTime createdDate, UserResponse userResponse, boolean likeState, int likeCount) {
         this.id = id;
         this.caption = caption;
         this.postImageUrl = postImageUrl;
         this.createdDate = createdDate;
         this.userResponse = userResponse;
         this.likeState = likeState;
+        this.likeCount = likeCount;
     }
 
     public static MainStoryImageResponse from(Image image) {
@@ -35,6 +37,7 @@ public class MainStoryImageResponse {
                 .createdDate(image.getCreatedDate())
                 .userResponse(UserResponse.from(image.getUser()))
                 .likeState(image.isLikeState())
+                .likeCount(image.getLikeCount())
                 .build();
     }
 

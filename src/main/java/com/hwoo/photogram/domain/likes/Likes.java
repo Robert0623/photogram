@@ -1,5 +1,6 @@
 package com.hwoo.photogram.domain.likes;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hwoo.photogram.domain.image.Image;
 import com.hwoo.photogram.domain.user.User;
 import jakarta.persistence.*;
@@ -28,6 +29,7 @@ public class Likes {
     private Image image;
 
     // TODO: 오류 발생 예상
+    @JsonIgnoreProperties({"images"})
     @JoinColumn(name = "userId")
     @ManyToOne
     private User user;

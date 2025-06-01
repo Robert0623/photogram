@@ -31,6 +31,9 @@ public class Image {
     @Transient // db에 컬럼이 만들어지지 않는다.
     private boolean likeState;
 
+    @Transient
+    private int likeCount;
+
     // TODO: 이미지 좋아요
     // TODO: 이미지 댓글
 
@@ -55,5 +58,9 @@ public class Image {
 
     public void editLikeState(boolean likeState) {
         this.likeState = likeState;
+    }
+
+    public void editLikeCount(int likeCount) {
+        this.likeCount = likeCount;
     }
 }

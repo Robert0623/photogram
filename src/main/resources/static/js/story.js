@@ -66,7 +66,7 @@ function getStoryItem(image) {
                     </button>
                 </div>
 
-                <span class="like"><b id="storyLikeCount-1">3 </b>likes</span>
+                <span class="like"><b id="storyLikeCount-${image.id}">${image.likeCount} </b>likes</span>
 
                 <div class="sl__item__contents__content">
                     <p>${image.caption}</p>
@@ -115,14 +115,46 @@ $(window).scroll(() => {
 // (3) 좋아요, 안좋아요
 function toggleLike(imageId) {
     let likeIcon = $(`#storyLikeIcon-${imageId}`);
-    if (likeIcon.hasClass("far")) {
-        likeIcon.addClass("fas");
-        likeIcon.addClass("active");
-        likeIcon.removeClass("far");
-    } else {
-        likeIcon.removeClass("fas");
-        likeIcon.removeClass("active");
-        likeIcon.addClass("far");
+    if (likeIcon.hasClass("far")) { // 좋아요 하겠다
+        const options = {
+            type: 'post',
+            url: `/api/image/${imageId}/likes`,
+            dataType: 'json'
+        };
+
+        $.ajax(options)
+            .done(res => {
+                likeIcon.addClass("fas");
+                likeIcon.addClass("active");
+                likeIcon.removeClass("far");
+
+                const likeCountStr = $(`#storyLikeCount-${imageId}`).text();
+                const likeCount = Number(likeCountStr);
+                $(`#storyLikeCount-${imageId}`).text(likeCount + 1);
+            })
+            .fail(error => {
+                console.log('좋아요 하기 실패', error);
+            });
+    } else { // 좋아요 취소하겠다
+        const options = {
+            type: 'delete',
+            url: `/api/image/${imageId}/likes`,
+            dataType: 'json'
+        };
+
+        $.ajax(options)
+            .done(res => {
+                likeIcon.removeClass("fas");
+                likeIcon.removeClass("active");
+                likeIcon.addClass("far");
+
+                const likeCountStr = $(`#storyLikeCount-${imageId}`).text();
+                const likeCount = Number(likeCountStr);
+                $(`#storyLikeCount-${imageId}`).text(likeCount - 1);
+            })
+            .fail(error => {
+                console.log('좋아요 취소 실패', error);
+            });
     }
 }
 
