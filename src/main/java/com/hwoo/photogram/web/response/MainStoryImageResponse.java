@@ -15,14 +15,16 @@ public class MainStoryImageResponse {
     private String postImageUrl;
     private LocalDateTime createdDate;
     private UserResponse userResponse;
+    private boolean likeState;
 
     @Builder
-    public MainStoryImageResponse(Long id, String caption, String postImageUrl, LocalDateTime createdDate, UserResponse userResponse) {
+    public MainStoryImageResponse(Long id, String caption, String postImageUrl, LocalDateTime createdDate, UserResponse userResponse, boolean likeState) {
         this.id = id;
         this.caption = caption;
         this.postImageUrl = postImageUrl;
         this.createdDate = createdDate;
         this.userResponse = userResponse;
+        this.likeState = likeState;
     }
 
     public static MainStoryImageResponse from(Image image) {
@@ -32,6 +34,7 @@ public class MainStoryImageResponse {
                 .postImageUrl(image.getPostImageUrl())
                 .createdDate(image.getCreatedDate())
                 .userResponse(UserResponse.from(image.getUser()))
+                .likeState(image.isLikeState())
                 .build();
     }
 
