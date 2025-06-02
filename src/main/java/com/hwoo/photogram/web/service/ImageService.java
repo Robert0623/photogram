@@ -5,6 +5,7 @@ import com.hwoo.photogram.domain.user.User;
 import com.hwoo.photogram.web.repository.ImageRepository;
 import com.hwoo.photogram.web.request.image.ImageUpload;
 import com.hwoo.photogram.web.response.MainStoryImageResponse;
+import com.hwoo.photogram.web.response.PopularImageResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -71,5 +73,13 @@ public class ImageService {
 
         Image image = request.toEntity(imageFileName, user);
         imageRepository.save(image);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PopularImageResponse> popularImage() {
+        List<Image> images = imageRepository.mPopular();
+        return images.stream()
+                .map(image -> PopularImageResponse.from(image))
+                .toList();
     }
 }

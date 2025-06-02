@@ -2,13 +2,17 @@ package com.hwoo.photogram.web.controller;
 
 import com.hwoo.photogram.config.auth.PrincipalDetails;
 import com.hwoo.photogram.web.request.image.ImageUpload;
+import com.hwoo.photogram.web.response.PopularImageResponse;
 import com.hwoo.photogram.web.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,7 +26,11 @@ public class ImageController {
     }
 
     @GetMapping("/image/popular")
-    public String popular() {
+    public String popular(Model model) {
+        List<PopularImageResponse> images = imageService.popularImage();
+
+        model.addAttribute("images", images);
+
         return "image/popular";
     }
 

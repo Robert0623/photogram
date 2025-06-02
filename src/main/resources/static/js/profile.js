@@ -96,7 +96,7 @@ function getSubscribeModalItem(user) {
 
 
 // (3) 유저 프로파일 사진 변경 (완)
-function profileImageUpload() {
+function profileImageUpload(pageUserId, principalId) {
     $("#userProfileImageInput").click();
 
     $("#userProfileImageInput").on("change", (e) => {
