@@ -71,7 +71,7 @@ public class User {
         this.role = role;
     }
 
-    public void edit(UserUpdate dto) {
+    public void edit(UserUpdate dto) { // updateProfileInfo
         if (dto.getName() != null && !dto.getName().isBlank()) {
             this.name = dto.getName();
         }
@@ -82,7 +82,11 @@ public class User {
         this.gender = dto.getGender();
     }
 
-    public void editPassword(String encryptedPassword) {
+    public void editPassword(String encryptedPassword) { // updatePassword
         this.password = encryptedPassword;
+    }
+
+    public void editProfileImageUrl(String profileImageUrl) { // updateProfileImageUrl
+        this.profileImageUrl = profileImageUrl;
     }
 }

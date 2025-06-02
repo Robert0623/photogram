@@ -11,13 +11,16 @@
         <!--유저이미지-->
         <div class="profile-left">
             <div class="profile-img-wrap story-border"
-                 onclick="popup('.modal-image')">
+                <c:if test="${user.id == principal.user.id}">
+                    onclick="popup('.modal-image')"
+                </c:if>
+                 >
                 <form id="userProfileImageForm">
                     <input type="file" name="profileImageFile" style="display: none;"
                            id="userProfileImageInput" />
                 </form>
 
-                <img class="profile-image" src="#"
+                <img class="profile-image" src="/upload/${user.profileImageUrl}"
                      onerror="this.src='/images/person.jpeg'" id="userProfileImage" />
             </div>
         </div>

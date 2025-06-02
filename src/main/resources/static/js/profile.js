@@ -107,12 +107,36 @@ function profileImageUpload(pageUserId, principalId) {
             return;
         }
 
-        // 사진 전송 성공시 이미지 변경
-        let reader = new FileReader();
-        reader.onload = (e) => {
-            $("#userProfileImage").attr("src", e.target.result);
-        }
-        reader.readAsDataURL(f); // 이 코드 실행시 reader.onload 실행됨.
+        const profileImageForm = $('#userProfileImageForm')[0];
+        console.log(profileImageForm);
+
+        // FormData 객체를 이용하면 form 태그의 필드와 그 값을 나타내는 일련의 key/value 쌍을 담을 수 있다.
+        const formData = new FormData(profileImageForm);
+
+        const options = {
+            type: 'patch',
+            url: `/api/user/profileImageUrl`,
+            data: formData,
+            contentType: false, // image 전송 시 필수: x-www-form-urlencoded로 파싱되는 것을 방지
+            processData: false, // image 전송 시 필수: contentType: false 시 querystring 자동 설정되는 것을 해제
+            enctype: 'multipart/form-data',
+            dataType: 'json'
+        };
+
+        $.ajax(options)
+            .done(res => {
+                // 사진 전송 성공시 이미지 변경
+                let reader = new FileReader();
+                reader.onload = (e) => {
+                    $("#userProfileImage").attr("src", e.target.result);
+                }
+                reader.readAsDataURL(f); // 이 코드 실행시 reader.onload 실행됨.
+            })
+            .fail(error => {
+                console.log('프로필 이미지 등록 실패: ', error);
+            });
+
+
     });
 }
 

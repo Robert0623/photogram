@@ -8,15 +8,28 @@ import com.hwoo.photogram.web.repository.UserRepository;
 import com.hwoo.photogram.web.request.user.UserUpdate;
 import com.hwoo.photogram.web.response.UserProfileResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
+
+    @Value("${file.path}")
+    private String uploadFolder;
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -56,5 +69,32 @@ public class UserService {
         int subscribeCount = subscribeRepository.mSubscribeCount(pageUserId);
 
         return UserProfileResponse.from(user, pageOwnerState, subscribeState == 1, subscribeCount);
+    }
+
+    @Transactional
+    public User profileImageUrlUpdate(Long principalId, MultipartFile profileImageFile) {
+        UUID uuid = UUID.randomUUID();
+        String imageFileName = uuid + "_" + profileImageFile.getOriginalFilename();
+        log.info(">>>>> imageFileName={}", imageFileName);
+
+        Path imageFilePath = Paths.get(uploadFolder + imageFileName);
+
+        File dir = new File(uploadFolder);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
+        try {
+            Files.write(imageFilePath, profileImageFile.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        User newUser = userRepository.findById(principalId)
+                .orElseThrow(() -> new CustomApiException("해당 유저를 찾을 수 없습니다"));
+
+        newUser.editProfileImageUrl(imageFileName);
+
+        return newUser;
     }
 }

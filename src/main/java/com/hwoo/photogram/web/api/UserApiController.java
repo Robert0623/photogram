@@ -12,6 +12,7 @@ import com.hwoo.photogram.web.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +34,17 @@ public class UserApiController {
     private final UserService userService;
     private final SecurityService securityService;
     private final SubscribeService subscribeService;
+
+    @PatchMapping("/api/user/profileImageUrl")
+    public ResponseEntity<?> profileImageUrlUpdate(MultipartFile profileImageFile,
+                                                   @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        User user = userService.profileImageUrlUpdate(principalDetails.getUser().getId(), profileImageFile);
+        securityService.reAuthenticate(user);
+        return ResponseEntity.ok(CommonResponse.builder()
+                .code(1)
+                .message("프로필 사진 변경 성공")
+                .build());
+    }
 
     @GetMapping("/api/user/{pageUserId}/subscribe")
     public CommonResponse<?> subscribeList(@PathVariable("pageUserId") Long pageUserId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
