@@ -34,6 +34,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.security:spring-security-taglibs'
 
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     // TODO: war + 외부톰캣 배포 시 tomcat-embed-jasper 없어야 충돌 피할 수 있다.
     // (japser - 컴파일러) 외부 톰캣은 자체 컴파일러를 가지고 있으므로 종복되면 충돌 예상.
