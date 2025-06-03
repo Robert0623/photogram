@@ -37,4 +37,18 @@ public class CommentService {
 
         return CommentCreateResponse.from(comment);
     }
+
+    @Transactional
+    public void commentDelete(Long commentId, Long principalId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new CustomApiException("존재하지 않는 댓글입니다."));
+
+        Long commentWriterId = comment.getUser().getId();
+        if (commentWriterId != principalId) {
+            log.error("댓글 삭제 중 댓글 작성자 id와 로그인 id 불일치");
+            throw new CustomApiException("댓글 삭제 중 댓글 작성자 id와 로그인 id 불일치");
+        }
+
+        commentRepository.deleteById(commentId);
+    }
 }

@@ -35,6 +35,14 @@ public class CommonResponse<T> {
                 .build();
     }
 
+    public static <T> CommonResponse<T> error(String message, T data) {
+        return CommonResponse.<T>builder()
+                .code(-1)
+                .message(message)
+                .data(data)
+                .build();
+    }
+
     public static <T> CommonResponse<T> error(String message) {
         return CommonResponse.<T>builder()
                 .code(-1)

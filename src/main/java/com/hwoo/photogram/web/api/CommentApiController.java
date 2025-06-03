@@ -5,6 +5,7 @@ import com.hwoo.photogram.web.exception.CommonResponse;
 import com.hwoo.photogram.web.request.comment.CommentCreate;
 import com.hwoo.photogram.web.response.CommentCreateResponse;
 import com.hwoo.photogram.web.service.CommentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class CommentApiController {
     private final CommentService commentService;
 
     @PostMapping("/api/comment")
-    public ResponseEntity<CommonResponse<CommentCreateResponse>> commentSave(@RequestBody CommentCreate request,
+    public ResponseEntity<CommonResponse<CommentCreateResponse>> commentSave(@RequestBody @Valid CommentCreate request,
                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
         CommentCreateResponse response = commentService.commentSave(principalDetails.getUser().getId(), request);
 
@@ -30,7 +31,9 @@ public class CommentApiController {
     }
 
     @DeleteMapping("/api/comment/{id}")
-    public ResponseEntity<?> commentDelete(@PathVariable Long id) {
-        return null;
+    public ResponseEntity<CommonResponse<Void>> commentDelete(@PathVariable Long id,
+                                           @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        commentService.commentDelete(id, principalDetails.getUser().getId());
+        return ResponseEntity.ok(CommonResponse.success("댓글 삭제 성공"));
     }
 }

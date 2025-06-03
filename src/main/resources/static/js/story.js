@@ -7,6 +7,9 @@
  (5) 댓글삭제
  */
 
+// (0) 현재 로그인한 사용자 아이디
+const principalId = $('#principalId').val();
+
 // (1) 스토리 로드하기
 let page = 0;
 
@@ -62,6 +65,7 @@ function getStoryItem(image) {
     } else {
         item += `<i class="far fa-heart" id="storyLikeIcon-${image.id}" onclick="toggleLike(${image.id})"></i>`;
     }
+
     item += `
                     </button>
                 </div>
@@ -78,13 +82,15 @@ function getStoryItem(image) {
         item += `<div class="sl__item__contents__comment" id="storyCommentItem-${comment.id}"">
                     <p>
                         <b>${comment.username} :</b> ${comment.content}
-                    </p>
+                    </p>`;
 
-                    <button>
+        if (principalId == comment.userId) {
+            item += `<button onclick="deleteComment(${comment.id})">
                         <i class="fas fa-times"></i>
-                    </button>
+                    </button>`;
+        }
 
-                </div>`;
+        item +=  `</div>`;
     })
 
 
@@ -200,18 +206,33 @@ function addComment(imageId) {
 			      <b>${comment.username} :</b>
 			      ${comment.content}
 			    </p>
-			    <button><i class="fas fa-times"></i></button>
+			    <button onclick="deleteComment(${comment.id})">
+                  <i class="fas fa-times"></i>
+			    </button>
 			  </div>`;
             commentList.prepend(content);
         })
         .fail(error => {
-            console.log("구독정보 불러오기 오류", error);
+            console.log("댓글 작성 실패", error);
         });
 
     commentInput.val("");
 }
 
 // (5) 댓글 삭제
-function deleteComment() {
+function deleteComment(commentId) {
+    const options = {
+        type: 'delete',
+        url: `/api/comment/${commentId}`,
+        dataType: 'json'
+    };
 
+    $.ajax(options)
+        .done(res => {
+           console.log(res);
+           $(`#storyCommentItem-${commentId}`).remove();
+        })
+        .fail(error => {
+            console.log('실패', error);
+        });
 }
