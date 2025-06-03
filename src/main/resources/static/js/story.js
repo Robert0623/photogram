@@ -71,20 +71,26 @@ function getStoryItem(image) {
                 <div class="sl__item__contents__content">
                     <p>${image.caption}</p>
                 </div>
+                
+                <div id="storyCommentList-${image.id}">`;
 
-                <div id="storyCommentList-${image.id}">
-
-                    <div class="sl__item__contents__comment" id="storyCommentItem-1"">
+    image.comments.forEach(comment => {
+        item += `<div class="sl__item__contents__comment" id="storyCommentItem-${comment.id}"">
                     <p>
-                        <b>Lovely :</b> 부럽습니다.
+                        <b>${comment.username} :</b> ${comment.content}
                     </p>
 
                     <button>
                         <i class="fas fa-times"></i>
                     </button>
 
-                </div>
+                </div>`;
+    })
 
+
+
+        item +=
+            `
             </div>
 
             <div class="sl__item__input">
@@ -177,7 +183,7 @@ function addComment(imageId) {
     const options = {
         type: 'post',
         url: '/api/comment',
-        data: data,
+        data: JSON.stringify(data),
         contentType: 'application/json;charset=utf-8',
         dataType: 'json'
     };
@@ -185,21 +191,23 @@ function addComment(imageId) {
     $.ajax(options)
         .done(res => {
             console.log('성공', res);
-        })
-        .fail(error => {
-            console.log('실패', error);
-        });
 
-    let content = `
-			  <div class="sl__item__contents__comment" id="storyCommentItem-2""> 
+            const comment = res.data;
+
+            let content = `
+			  <div class="sl__item__contents__comment" id="storyCommentItem-${comment.id}"> 
 			    <p>
-			      <b>GilDong :</b>
-			      댓글 샘플입니다.
+			      <b>${comment.username} :</b>
+			      ${comment.content}
 			    </p>
 			    <button><i class="fas fa-times"></i></button>
-			  </div>
-	`;
-    commentList.prepend(content);
+			  </div>`;
+            commentList.prepend(content);
+        })
+        .fail(error => {
+            console.log("구독정보 불러오기 오류", error);
+        });
+
     commentInput.val("");
 }
 

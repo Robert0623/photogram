@@ -1,6 +1,7 @@
 package com.hwoo.photogram.domain.image;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hwoo.photogram.domain.comment.Comment;
 import com.hwoo.photogram.domain.likes.Likes;
 import com.hwoo.photogram.domain.user.User;
 import jakarta.persistence.*;
@@ -27,6 +28,10 @@ public class Image {
     @JsonIgnoreProperties({"image"})
     @OneToMany(mappedBy = "image")
     private List<Likes> likes;
+
+    @OrderBy("id DESC")
+    @OneToMany(mappedBy = "image")
+    private List<Comment> comments;
 
     @Transient // db에 컬럼이 만들어지지 않는다.
     private boolean likeState;

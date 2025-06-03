@@ -1,10 +1,11 @@
 package com.hwoo.photogram.web.exception;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class CommonResponse<T> {
 
@@ -17,5 +18,27 @@ public class CommonResponse<T> {
         this.code = code;
         this.message = message;
         this.data = data;
+    }
+
+    public static <T> CommonResponse<T> success(String message, T data) {
+        return CommonResponse.<T>builder()
+                .code(1)
+                .message(message)
+                .data(data)
+                .build();
+    }
+
+    public static <T> CommonResponse<T> success(String message) {
+        return CommonResponse.<T>builder()
+                .code(1)
+                .message(message)
+                .build();
+    }
+
+    public static <T> CommonResponse<T> error(String message) {
+        return CommonResponse.<T>builder()
+                .code(-1)
+                .message(message)
+                .build();
     }
 }
